@@ -5,21 +5,21 @@ import org.junit.Test;
 
 import java.math.BigDecimal;
 
-public class ItemTest {
+public class ProductTest {
 
     @Test
     public void shouldThrowExceptionForInvalidParameters() {
         SoftAssertions softly = new SoftAssertions();
-        softly.assertThatThrownBy(() -> new Item(null, BigDecimal.ONE)).isInstanceOf(IllegalArgumentException.class);
-        softly.assertThatThrownBy(() -> new Item("   ", BigDecimal.ONE)).isInstanceOf(IllegalArgumentException.class);
-        softly.assertThatThrownBy(() -> new Item("ABC", null)).isInstanceOf(IllegalArgumentException.class);
-        softly.assertThatThrownBy(() -> new Item("ABC", BigDecimal.ZERO)).isInstanceOf(IllegalArgumentException.class);
+        softly.assertThatThrownBy(() -> new Product(null, BigDecimal.ONE)).isInstanceOf(IllegalArgumentException.class);
+        softly.assertThatThrownBy(() -> new Product("   ", BigDecimal.ONE)).isInstanceOf(IllegalArgumentException.class);
+        softly.assertThatThrownBy(() -> new Product("ABC", null)).isInstanceOf(IllegalArgumentException.class);
+        softly.assertThatThrownBy(() -> new Product("ABC", BigDecimal.ZERO)).isInstanceOf(IllegalArgumentException.class);
         softly.assertAll();
     }
 
     @Test
     public void shouldNotThrowExceptionForValidParameters() {
-        Item item = new Item("Item name", BigDecimal.valueOf(12.5));
+        Product item = new Product("Item name", BigDecimal.valueOf(12.5));
 
         SoftAssertions softly = new SoftAssertions();
         softly.assertThat(item.getName()).isEqualTo("Item name");
