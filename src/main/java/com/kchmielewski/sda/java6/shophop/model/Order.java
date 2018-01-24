@@ -39,6 +39,10 @@ public class Order {
         calculateTotalPrice(product, quantity);
     }
 
+    public BigDecimal recalculateWithPromotion(Promotion promotion) {
+        return promotion.apply(this);
+    }
+
     private void calculateTotalPrice(Product product, int quantity) {
         totalPrice = totalPrice.add(product.getPrice().multiply(BigDecimal.valueOf(quantity)));
     }

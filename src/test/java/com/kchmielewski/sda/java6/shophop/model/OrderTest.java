@@ -71,6 +71,15 @@ public class OrderTest {
         order.addProduct(secondProduct, 2);
 
         assertThat(order.getTotalPrice()).isEqualByComparingTo(BigDecimal.valueOf(14.80));
+    }
 
+    @Test
+    public void checkIfPromotionIsApplied() {
+        given(firstProduct.getPrice()).willReturn(BigDecimal.valueOf(3.20));
+
+        order.addProduct(firstProduct, 3);
+        BigDecimal totalPrice = order.recalculateWithPromotion(order -> order.getTotalPrice().divide(BigDecimal.valueOf(2), BigDecimal.ROUND_UP));
+
+        assertThat(totalPrice).isEqualByComparingTo(BigDecimal.valueOf(4.80));
     }
 }
