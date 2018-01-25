@@ -1,15 +1,14 @@
 package com.kchmielewski.sda.java6.shophop.model;
 
 import java.math.BigDecimal;
-import java.util.Collections;
-import java.util.LinkedHashMap;
-import java.util.Map;
+import java.util.*;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 public class Order {
     private BigDecimal totalPrice = BigDecimal.ZERO;
+    private BigDecimal totalPriceIncludingPromotions = totalPrice;
     private Map<Product, Integer> products = new LinkedHashMap<>();
 
 
@@ -20,6 +19,10 @@ public class Order {
 
     public BigDecimal getTotalPrice() {
         return totalPrice;
+    }
+
+    public BigDecimal getTotalPriceIncludingPromotions() {
+        return totalPriceIncludingPromotions;
     }
 
     public void addProduct(Product product) {
@@ -39,8 +42,15 @@ public class Order {
         calculateTotalPrice(product, quantity);
     }
 
-    public BigDecimal recalculateWithPromotion(Promotion promotion) {
-        return promotion.apply(this);
+    public BigDecimal recalculateWithPromotions(PriorityQueue<Promotion> promotions) {
+        totalPriceIncludingPromotions = totalPrice;
+        for (Promotion promotion: promotions) {
+            if (promotion.isApplicable(this)) {
+                totalPriceIncludingPromotions = promotion.apply(this);
+            }
+        }
+
+        return totalPriceIncludingPromotions;
     }
 
     private void calculateTotalPrice(Product product, int quantity) {
